@@ -141,7 +141,7 @@ function productCard(p) {
     <article class="card">
       <a class="card__media" href="#/produkt/${p.id}" aria-label="${p.name} ansehen">
         ${p.badge ? `<span class="card__flag">Fast ausverkauft</span>` : ''}
-        <div class="card__art">${p.art()}</div>
+        <div class="card__art">${productMedia(p)}</div>
       </a>
       <div class="card__body">
         <h3 class="card__title">${p.name}</h3>
@@ -203,6 +203,64 @@ function viewShop() {
     </section>`;
 }
 
+/** Baut die Bildergalerie (Track + Pfeile + Punkte) für ein Produkt mit Fotos. */
+function galleryMarkup(p) {
+  const slides = p.images
+    .map(
+      (im, i) => `
+        <img class="gallery__img" src="${im.src}" alt="${im.alt}"
+             draggable="false" ${i === 0 ? '' : 'loading="lazy"'} decoding="async">`
+    )
+    .join('');
+
+  const dots = p.images
+    .map(
+      (_, i) => `<button class="gallery__dot ${i === 0 ? 'is-active' : ''}"
+                    data-go="${i}" aria-label="Bild ${i + 1} anzeigen"></button>`
+    )
+    .join('');
+
+  const multi = p.images.length > 1;
+
+  return `
+    <div class="gallery" data-index="0" data-count="${p.images.length}">
+      <div class="gallery__track">${slides}</div>
+      ${
+        multi
+          ? `
+        <button class="gallery__arrow gallery__arrow--prev" data-dir="-1"
+                aria-label="Vorheriges Bild">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="gallery__arrow gallery__arrow--next" data-dir="1"
+                aria-label="Nächstes Bild">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <div class="gallery__dots">${dots}</div>
+        <span class="gallery__counter"><span data-current>1</span> / ${p.images.length}</span>`
+          : ''
+      }
+    </div>`;
+}
+
+/** Verschiebt die Galerie auf einen (umlaufenden) Index. */
+function galleryGoTo(gallery, index) {
+  const count = Number(gallery.dataset.count);
+  const next = ((index % count) + count) % count;
+  gallery.dataset.index = String(next);
+  const track = $('.gallery__track', gallery);
+  track.style.transform = `translateX(-${next * 100}%)`;
+  $$('.gallery__dot', gallery).forEach((d, i) =>
+    d.classList.toggle('is-active', i === next)
+  );
+  const cur = $('[data-current]', gallery);
+  if (cur) cur.textContent = String(next + 1);
+}
+
 function viewProduct(id) {
   const p = getProduct(id);
   if (!p) return viewNotFound();
@@ -221,7 +279,7 @@ function viewProduct(id) {
       <div class="pdp__grid">
         <div class="pdp__media">
           ${p.badge ? `<span class="pdp__flag">Fast ausverkauft</span>` : ''}
-          <div class="pdp__art">${p.art()}</div>
+          ${p.images && p.images.length ? galleryMarkup(p) : `<div class="pdp__art">${p.art()}</div>`}
         </div>
 
         <div class="pdp__info">
@@ -400,7 +458,7 @@ function renderCartDrawer() {
       .map(
         (l) => `
         <div class="citem">
-          <div class="citem__art">${l.product.art()}</div>
+          <div class="citem__art">${productMedia(l.product)}</div>
           <div class="citem__info">
             <p class="citem__name">${l.product.name}</p>
             <p class="citem__meta">Größe ${l.size} · ${formatPrice(l.product.price)}</p>
@@ -489,6 +547,27 @@ function render() {
 /* Bindet View-spezifische Interaktionen nach jedem Render. */
 function bindViewEvents(name) {
   if (name === 'product') {
+    // Bildergalerie: Pfeile, Punkte, Tastatur
+    const gallery = $('.gallery');
+    if (gallery) {
+      gallery.addEventListener('click', (e) => {
+        const arrow = e.target.closest('.gallery__arrow');
+        if (arrow) {
+          galleryGoTo(gallery, Number(gallery.dataset.index) + Number(arrow.dataset.dir));
+          return;
+        }
+        const dot = e.target.closest('.gallery__dot');
+        if (dot) galleryGoTo(gallery, Number(dot.dataset.go));
+      });
+      gallery.tabIndex = 0;
+      gallery.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft')
+          galleryGoTo(gallery, Number(gallery.dataset.index) - 1);
+        else if (e.key === 'ArrowRight')
+          galleryGoTo(gallery, Number(gallery.dataset.index) + 1);
+      });
+    }
+
     const sizes = $$('.size');
     sizes.forEach((btn) =>
       btn.addEventListener('click', () => {
