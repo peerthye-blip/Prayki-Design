@@ -333,7 +333,7 @@ function viewContact() {
       <div class="contact">
         <div class="contact__info">
           <p><span class="contact__label">E-Mail</span>peer.thye@icloud.com</p>
-          <p><span class="contact__label">Instagram</span>@prayki</p>
+          <p><span class="contact__label">Instagram</span>@praykidesign</p>
         </div>
 
         <form class="contact__form" id="contact-form" novalidate>
