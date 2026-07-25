@@ -23,7 +23,11 @@ const Cart = {
   },
 
   save() {
-    localStorage.setItem(CART_KEY, JSON.stringify(this.items));
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(this.items));
+    } catch (_) {
+      /* Speicher nicht verfügbar (z. B. Sandbox) – Warenkorb bleibt zur Laufzeit erhalten */
+    }
   },
 
   /** Fügt ein Produkt in einer bestimmten Größe hinzu (respektiert maxOrder). */
