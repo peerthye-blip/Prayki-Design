@@ -186,7 +186,7 @@ function viewHome() {
           erstklassige Materialien und einen zeitlosen, monochromen Look –
           gemacht für die Straße, gedacht für den Alltag.
         </p>
-        <a class="btn btn--ghost" href="#/ueber">Über Prayki</a>
+        <a class="btn btn--ghost" href="#/shop">Zur Kollektion</a>
       </div>
     </section>`;
 }
@@ -254,33 +254,6 @@ function viewProduct(id) {
     </section>`;
 }
 
-function viewAbout() {
-  return `
-    <section class="section section--top prose">
-      <div class="page-head">
-        <p class="page-head__eyebrow">Über Prayki</p>
-        <h1 class="page-head__title">Minimal. Kompromisslos.</h1>
-      </div>
-      <p>
-        Prayki wurde aus einer einfachen Idee geboren: Streetwear, die nichts
-        beweisen muss. Kein lautes Logo-Spiel, keine überladenen Prints –
-        sondern reduzierte Silhouetten in Schwarz, Weiß und Grau, die für sich
-        sprechen.
-      </p>
-      <p>
-        Jeder Hoodie wird aus einem angenehmen, hochwertigen Stoff gefertigt
-        und auf das Wesentliche reduziert. Wir glauben an weniger Produkte in
-        besserer Qualität – deshalb konzentrieren wir uns bewusst auf eine
-        kleine, sorgfältig gestaltete Kollektion.
-      </p>
-      <p>
-        Prayki ist gemacht für alle, die klare Linien lieben und Wert auf
-        Qualität legen. Willkommen in der Kollektion.
-      </p>
-      <a class="btn btn--lg" href="#/shop">Zur Kollektion</a>
-    </section>`;
-}
-
 function viewContact() {
   return `
     <section class="section section--top prose">
@@ -294,8 +267,7 @@ function viewContact() {
 
       <div class="contact">
         <div class="contact__info">
-          <p><span class="contact__label">E-Mail</span>hello@prayki.com</p>
-          <p><span class="contact__label">Support</span>Mo–Fr · 9–17 Uhr</p>
+          <p><span class="contact__label">E-Mail</span>peer.thye@icloud.com</p>
           <p><span class="contact__label">Instagram</span>@prayki</p>
         </div>
 
@@ -479,7 +451,6 @@ const routes = [
   { re: /^#?\/?$/, view: viewHome, name: 'home' },
   { re: /^#\/shop$/, view: viewShop, name: 'shop' },
   { re: /^#\/produkt\/([\w-]+)$/, view: (m) => viewProduct(m[1]), name: 'product' },
-  { re: /^#\/ueber$/, view: viewAbout, name: 'about' },
   { re: /^#\/kontakt$/, view: viewContact, name: 'contact' },
   { re: /^#\/kasse$/, view: viewCheckout, name: 'checkout' },
 ];
