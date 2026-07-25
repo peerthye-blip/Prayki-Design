@@ -200,7 +200,7 @@ function viewShop() {
       <div class="page-head">
         <p class="page-head__eyebrow">Shop</p>
         <h1 class="page-head__title">Die Kollektion</h1>
-        <p class="page-head__text">Drei Hoodies in reinem Schwarz. Wähle deinen Stil.</p>
+        <p class="page-head__text">Drei Hoodies. Monochrome Töne, klare Linien. Wähle deinen Stil.</p>
       </div>
       <div class="grid">${PRODUCTS.map(productCard).join('')}</div>
     </section>`;
