@@ -30,14 +30,15 @@ const Cart = {
     }
   },
 
-  /** Fügt ein Produkt in einer bestimmten Größe hinzu (respektiert maxOrder). */
-  add(productId, size) {
+  /** Fügt ein Produkt in Größe + Farbe hinzu (respektiert maxOrder). */
+  add(productId, size, color) {
     const product = getProduct(productId);
     if (!product) return { ok: false, message: 'Produkt nicht gefunden.' };
     if (!size) return { ok: false, message: 'Bitte wähle eine Größe.' };
+    if (!color) color = product.colors[0].name;
 
     const line = this.items.find(
-      (i) => i.id === productId && i.size === size
+      (i) => i.id === productId && i.size === size && i.color === color
     );
     const currentQty = line ? line.qty : 0;
 
@@ -51,31 +52,31 @@ const Cart = {
     if (line) {
       line.qty += 1;
     } else {
-      this.items.push({ id: productId, size, qty: 1 });
+      this.items.push({ id: productId, size, color, qty: 1 });
     }
     this.save();
-    return { ok: true, message: `${product.name} (${size}) hinzugefügt.` };
+    return { ok: true, message: `${product.name} (${size} · ${color}) hinzugefügt.` };
   },
 
-  setQty(productId, size, qty) {
+  setQty(productId, size, color, qty) {
     const product = getProduct(productId);
     const line = this.items.find(
-      (i) => i.id === productId && i.size === size
+      (i) => i.id === productId && i.size === size && i.color === color
     );
     if (!line) return;
     let next = Math.max(0, qty);
     if (product && product.maxOrder) next = Math.min(next, product.maxOrder);
     if (next === 0) {
-      this.remove(productId, size);
+      this.remove(productId, size, color);
     } else {
       line.qty = next;
       this.save();
     }
   },
 
-  remove(productId, size) {
+  remove(productId, size, color) {
     this.items = this.items.filter(
-      (i) => !(i.id === productId && i.size === size)
+      (i) => !(i.id === productId && i.size === size && i.color === color)
     );
     this.save();
   },
@@ -145,7 +146,9 @@ function productCard(p) {
       </a>
       <div class="card__body">
         <h3 class="card__title">${p.name}</h3>
-        <p class="card__meta">${p.color} · ${p.sizes.length > 1
+        <p class="card__meta">${p.colors.length > 1
+          ? p.colors.length + ' Farben'
+          : p.colors[0].name} · ${p.sizes.length > 1
           ? p.sizes[0] + '–' + p.sizes[p.sizes.length - 1]
           : 'Größe ' + p.sizes[0]}</p>
         <div class="card__foot">
@@ -273,6 +276,17 @@ function viewProduct(id) {
     )
     .join('');
 
+  const colors = p.colors
+    .map(
+      (c, i) =>
+        `<button type="button" class="swatch-btn ${i === 0 ? 'is-active' : ''}"
+           data-color="${c.name}" title="${c.name}" aria-label="${c.name}">
+           <span class="swatch-dot ${c.melange ? 'swatch-dot--melange' : ''}"
+             style="--sw:${c.hex}"></span>
+         </button>`
+    )
+    .join('');
+
   return `
     <section class="pdp">
       <a class="pdp__back" href="#/shop">← Zurück zum Shop</a>
@@ -288,10 +302,9 @@ function viewProduct(id) {
           <p class="pdp__price">${formatPrice(p.price)}</p>
           <p class="pdp__desc">${p.description}</p>
 
-          <div class="pdp__row">
-            <span class="pdp__label">Farbe</span>
-            <span class="swatch" title="Schwarz"></span>
-            <span class="pdp__value">${p.color}</span>
+          <div class="pdp__row pdp__row--col">
+            <span class="pdp__label">Farbe — <span class="pdp__value" data-color-name>${p.colors[0].name}</span></span>
+            <div class="swatches" role="group" aria-label="Farbe wählen">${colors}</div>
           </div>
 
           <div class="pdp__row pdp__row--col">
@@ -301,12 +314,6 @@ function viewProduct(id) {
 
           <button class="btn btn--lg btn--full" id="add-to-cart"
                   data-id="${p.id}">In den Warenkorb</button>
-
-          <ul class="pdp__usp">
-            <li>Premium-Baumwollmix, angenehm weich</li>
-            <li>Unisex-Schnitt, modernes Streetwear-Design</li>
-            <li>Versandfertig in 1–2 Werktagen</li>
-          </ul>
         </div>
       </div>
     </section>`;
@@ -363,7 +370,7 @@ function viewCheckout() {
     .map(
       (l) => `
       <div class="sum__line">
-        <span>${l.qty}× ${l.product.name} · ${l.size}</span>
+        <span>${l.qty}× ${l.product.name} · ${l.size} · ${l.color}</span>
         <span>${formatPrice(l.lineTotal)}</span>
       </div>`
     )
@@ -461,8 +468,8 @@ function renderCartDrawer() {
           <div class="citem__art">${productMedia(l.product)}</div>
           <div class="citem__info">
             <p class="citem__name">${l.product.name}</p>
-            <p class="citem__meta">Größe ${l.size} · ${formatPrice(l.product.price)}</p>
-            <div class="qty" data-id="${l.id}" data-size="${l.size}">
+            <p class="citem__meta">Größe ${l.size} · ${l.color} · ${formatPrice(l.product.price)}</p>
+            <div class="qty" data-id="${l.id}" data-size="${l.size}" data-color="${l.color}">
               <button class="qty__btn" data-act="dec" aria-label="Weniger">−</button>
               <span class="qty__num">${l.qty}</span>
               <button class="qty__btn" data-act="inc" aria-label="Mehr">+</button>
@@ -471,7 +478,8 @@ function renderCartDrawer() {
           <div class="citem__right">
             <span class="citem__total">${formatPrice(l.lineTotal)}</span>
             <button class="citem__remove" data-remove
-              data-id="${l.id}" data-size="${l.size}" aria-label="Entfernen">Entfernen</button>
+              data-id="${l.id}" data-size="${l.size}" data-color="${l.color}"
+              aria-label="Entfernen">Entfernen</button>
           </div>
         </div>`
       )
@@ -576,11 +584,26 @@ function bindViewEvents(name) {
       })
     );
 
+    const swatches = $$('.swatch-btn');
+    const colorName = $('[data-color-name]');
+    swatches.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        swatches.forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        if (colorName) colorName.textContent = btn.dataset.color;
+      })
+    );
+
     const add = $('#add-to-cart');
     if (add) {
       add.addEventListener('click', () => {
-        const active = $('.size.is-active');
-        const res = Cart.add(add.dataset.id, active ? active.dataset.size : null);
+        const activeSize = $('.size.is-active');
+        const activeColor = $('.swatch-btn.is-active');
+        const res = Cart.add(
+          add.dataset.id,
+          activeSize ? activeSize.dataset.size : null,
+          activeColor ? activeColor.dataset.color : null
+        );
         toast(res.message, res.ok ? 'ok' : 'err');
         if (res.ok) {
           updateCartBadge();
@@ -652,7 +675,7 @@ function bindGlobalEvents() {
 
     const remove = e.target.closest('[data-remove]');
     if (remove) {
-      Cart.remove(remove.dataset.id, remove.dataset.size);
+      Cart.remove(remove.dataset.id, remove.dataset.size, remove.dataset.color);
       renderCartDrawer();
       if (location.hash === '#/kasse') render();
       return;
@@ -661,17 +684,16 @@ function bindGlobalEvents() {
     const qtyBtn = e.target.closest('.qty__btn');
     if (qtyBtn) {
       const wrap = qtyBtn.closest('.qty');
-      const line = Cart.items.find(
-        (i) => i.id === wrap.dataset.id && i.size === wrap.dataset.size
-      );
+      const match = (i) =>
+        i.id === wrap.dataset.id &&
+        i.size === wrap.dataset.size &&
+        i.color === wrap.dataset.color;
+      const line = Cart.items.find(match);
       if (!line) return;
       const delta = qtyBtn.dataset.act === 'inc' ? 1 : -1;
       const before = line.qty;
-      Cart.setQty(wrap.dataset.id, wrap.dataset.size, line.qty + delta);
-      const after =
-        Cart.items.find(
-          (i) => i.id === wrap.dataset.id && i.size === wrap.dataset.size
-        )?.qty ?? 0;
+      Cart.setQty(wrap.dataset.id, wrap.dataset.size, wrap.dataset.color, line.qty + delta);
+      const after = Cart.items.find(match)?.qty ?? 0;
       if (delta > 0 && after === before) {
         const p = getProduct(wrap.dataset.id);
         toast(`Nur noch ${p.maxOrder} Stück bestellbar.`, 'err');

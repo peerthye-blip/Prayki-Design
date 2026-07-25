@@ -90,13 +90,20 @@ function hoodieSVG({ id = 'h', wings = false } = {}) {
   </svg>`;
 }
 
+/* Verfügbare Hoodie-Farben (Name + Swatch-Farbe). */
+const HOODIE_COLORS = {
+  heather: { key: 'heather', name: 'Hellgrau meliert', hex: '#c8c8cd', melange: true },
+  black: { key: 'black', name: 'Schwarz', hex: '#141416' },
+  white: { key: 'white', name: 'Weiß', hex: '#f4f4f2' },
+};
+
 /* Produktkatalog – aktuell ausschließlich diese drei Hoodies. */
 const PRODUCTS = [
   {
     id: 'kinder-hoodie',
     name: 'Kinder Hoodie',
     price: 50,
-    color: 'Schwarz',
+    colors: [HOODIE_COLORS.heather, HOODIE_COLORS.black, HOODIE_COLORS.white],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     description:
       'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
@@ -108,7 +115,7 @@ const PRODUCTS = [
     id: 'erwachsenen-hoodie',
     name: 'Erwachsenen Hoodie',
     price: 60,
-    color: 'Schwarz',
+    colors: [HOODIE_COLORS.heather, HOODIE_COLORS.black, HOODIE_COLORS.white],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     description:
       'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
@@ -120,7 +127,7 @@ const PRODUCTS = [
     id: 'wing-hoodie',
     name: 'Wing Hoodie',
     price: 55,
-    color: 'Schwarz',
+    colors: [HOODIE_COLORS.heather],
     sizes: ['S'],
     description:
       'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
