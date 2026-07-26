@@ -165,7 +165,7 @@ function viewHome() {
     <section class="hero">
       <div class="hero__inner">
         <p class="hero__eyebrow">Prayki · Est. Streetwear</p>
-        <h1 class="hero__title">PRAYKI –<br>Minimal Streetwear.</h1>
+        <h1 class="hero__title">PRAYKI-DESIGN</h1>
         <p class="hero__subtitle">Schlichte Designs. Höchste Qualität.</p>
         <a class="btn btn--lg" href="#/shop">Jetzt shoppen</a>
       </div>
