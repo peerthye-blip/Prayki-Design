@@ -51,3 +51,39 @@ python3 -m http.server 8000
 Neue Produkte lassen sich durch einen weiteren Eintrag im Array `PRODUCTS`
 in `js/products.js` hinzufügen — Shop, Produktseite und Warenkorb übernehmen
 das Produkt automatisch.
+
+## E-Mail-Versand (Kontakt & Bestellungen)
+
+Kontaktanfragen und Bestellungen werden per **Resend** an die in `MAIL_TO`
+hinterlegte Adresse geschickt. Der Versand läuft über die Serverless-Funktion
+`api/send-email.js` – der API-Key liegt **ausschließlich als Server-Umgebungs-
+variable** vor, niemals im Frontend oder im Repo.
+
+> ⚠️ **Sicherheit:** Der Resend-Key darf nie in Client-Code/HTML/JS stehen
+> (die Seite ist öffentlich). Ausschließlich als Env-Variable im Hosting setzen.
+
+### Deployment mit Vercel (empfohlen)
+
+1. Repo mit Vercel verbinden (Framework-Preset: „Other" / statisch).
+2. Unter **Settings → Environment Variables** setzen:
+   - `RESEND_API_KEY` = dein Resend-Key
+   - `MAIL_TO` = `peer.thye@icloud.com`
+   - `MAIL_FROM` = `Prayki <onboarding@resend.dev>` (oder eigene verifizierte Domain)
+3. Deployen. Die Funktion ist dann unter `/api/send-email` erreichbar; das
+   Formular postet automatisch dorthin.
+
+### Absender / eigene Domain
+
+Ohne eigene Domain funktioniert der Resend-Testabsender `onboarding@resend.dev`
+– er stellt allerdings **nur an die E-Mail-Adresse des Resend-Kontoinhabers**
+zu. Für Versand an beliebige Adressen (und ein sauberes „Von: Prayki") in
+Resend eine **eigene Domain verifizieren** und `MAIL_FROM` entsprechend setzen.
+
+### Ohne Backend (z. B. reine statische Vorschau)
+
+Ist kein `/api/send-email` erreichbar, öffnet das Kontaktformular als Fallback
+das E-Mail-Programm des Besuchers (`mailto:`), damit die Nachricht dich
+trotzdem erreicht. Für automatischen Versand ist die Serverless-Funktion nötig.
+
+Lokale Vorlage der Variablen: siehe `.env.example` (echte Werte in `.env`,
+wird von `.gitignore` ausgeschlossen).

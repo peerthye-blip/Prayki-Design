@@ -11,6 +11,12 @@
 
 const CART_KEY = 'prayki_cart_v1';
 
+/* Endpoint der Serverless-Funktion, die E-Mails über Resend verschickt.
+   Auf dem deployten Host same-origin unter /api/send-email erreichbar.
+   (Ohne Backend – z. B. in der Artifact-Vorschau – greift ein mailto-Fallback.) */
+const EMAIL_ENDPOINT = '/api/send-email';
+const CONTACT_MAIL = 'peer.thye@icloud.com';
+
 const Cart = {
   items: [],
 
@@ -619,14 +625,45 @@ function bindViewEvents(name) {
 
   if (name === 'contact') {
     const form = $('#contact-form');
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) {
         toast('Bitte fülle alle Felder aus.', 'err');
+        form.reportValidity();
         return;
       }
-      form.reset();
-      toast('Danke! Deine Nachricht wurde gesendet.');
+      const fd = new FormData(form);
+      const payload = {
+        type: 'contact',
+        name: (fd.get('name') || '').toString().trim(),
+        email: (fd.get('email') || '').toString().trim(),
+        message: (fd.get('message') || '').toString().trim(),
+      };
+      const btn = form.querySelector('button[type="submit"]');
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Wird gesendet …';
+      try {
+        const r = await fetch(EMAIL_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!r.ok) throw new Error('endpoint');
+        form.reset();
+        toast('Danke! Deine Nachricht wurde gesendet.');
+      } catch (_) {
+        // Fallback ohne Backend: E-Mail-Programm mit vorausgefüllter Nachricht öffnen
+        const subject = encodeURIComponent('Kontaktanfrage – Prayki');
+        const bodyTxt = encodeURIComponent(
+          `Name: ${payload.name}\nE-Mail: ${payload.email}\n\n${payload.message}`
+        );
+        window.location.href = `mailto:${CONTACT_MAIL}?subject=${subject}&body=${bodyTxt}`;
+        toast('Öffne dein E-Mail-Programm …');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
     });
   }
 
@@ -641,6 +678,33 @@ function bindViewEvents(name) {
           return;
         }
         const orderId = Math.floor(100000 + Math.random() * 899999);
+
+        // Bestelldetails per E-Mail an den Shop schicken (best effort)
+        const fd = new FormData(form);
+        const order = {
+          id: orderId,
+          customer: {
+            name: `${fd.get('firstname') || ''} ${fd.get('lastname') || ''}`.trim(),
+            email: (fd.get('email') || '').toString().trim(),
+            address: `${fd.get('street') || ''}, ${fd.get('zip') || ''} ${
+              fd.get('city') || ''
+            }`.trim(),
+          },
+          items: Cart.detailed().map((l) => ({
+            qty: l.qty,
+            name: l.product.name,
+            size: l.size,
+            color: l.color,
+            lineTotal: formatPrice(l.lineTotal),
+          })),
+          total: formatPrice(Cart.total()),
+        };
+        fetch(EMAIL_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'order', order }),
+        }).catch(() => {});
+
         Cart.clear();
         updateCartBadge();
         const main = $('#app');

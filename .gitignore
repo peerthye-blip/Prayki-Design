@@ -1,0 +1,13 @@
+# Umgebungsvariablen / Secrets – NIEMALS committen
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+
+# Vercel
+.vercel/
+
+# System
+.DS_Store
