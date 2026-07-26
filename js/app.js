@@ -171,7 +171,7 @@ function viewHome() {
           <a class="btn btn--lg" href="#/shop">Jetzt shoppen</a>
         </div>
         <div class="hero__media">
-          <img class="hero__photo" src="${HERO_IMAGE.src}" alt="${HERO_IMAGE.alt}" decoding="async">
+          <img class="hero__photo" src="${HERO_CUTOUT.src}" alt="${HERO_CUTOUT.alt}" decoding="async">
         </div>
       </div>
       <span class="hero__scroll">Scroll</span>

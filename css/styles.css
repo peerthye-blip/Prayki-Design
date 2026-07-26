@@ -286,9 +286,8 @@ input, textarea, select { font: inherit; }
 .hero__media { display: flex; justify-content: center; }
 .hero__photo {
   width: 100%;
-  max-width: 440px;
-  border-radius: 12px;
-  box-shadow: 0 40px 90px -34px rgba(0, 0, 0, 0.7);
+  max-width: 480px;
+  filter: drop-shadow(0 34px 60px rgba(0, 0, 0, 0.55));
 }
 .hero__eyebrow {
   font-size: .72rem;
