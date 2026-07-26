@@ -103,11 +103,15 @@ const PRODUCTS = [
     id: 'kinder-hoodie',
     name: 'Kinder Hoodie',
     price: 50,
-    colors: [HOODIE_COLORS.heather, HOODIE_COLORS.black, HOODIE_COLORS.white],
+    colors: [HOODIE_COLORS.white],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     description:
       'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
     art: () => hoodieSVG({ id: 'kinder' }),
+    images:
+      typeof HERO_IMAGE !== 'undefined' && typeof HOODIE_BACK_IMAGE !== 'undefined'
+        ? [HERO_IMAGE, HOODIE_BACK_IMAGE]
+        : null,
     badge: null,
     maxOrder: null,
   },
@@ -115,11 +119,15 @@ const PRODUCTS = [
     id: 'erwachsenen-hoodie',
     name: 'Erwachsenen Hoodie',
     price: 60,
-    colors: [HOODIE_COLORS.heather, HOODIE_COLORS.black, HOODIE_COLORS.white],
+    colors: [HOODIE_COLORS.white],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     description:
       'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
     art: () => hoodieSVG({ id: 'erwachsen' }),
+    images:
+      typeof HERO_IMAGE !== 'undefined' && typeof HOODIE_BACK_IMAGE !== 'undefined'
+        ? [HERO_IMAGE, HOODIE_BACK_IMAGE]
+        : null,
     badge: null,
     maxOrder: null,
   },
