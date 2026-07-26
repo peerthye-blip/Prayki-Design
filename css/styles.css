@@ -270,24 +270,10 @@ input, textarea, select { font: inherit; }
   color: var(--white);
   padding: var(--header-h) clamp(20px, 6vw, 90px) 0;
 }
-.hero__art {
-  position: absolute;
-  top: 50%; right: clamp(-40px, 2vw, 60px);
-  transform: translateY(-50%);
-  width: clamp(320px, 46vw, 640px);
-  opacity: .96;
-  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.55));
-  pointer-events: none;
-  animation: floaty 7s ease-in-out infinite;
-}
-@keyframes floaty {
-  0%, 100% { transform: translateY(-50%); }
-  50% { transform: translateY(calc(-50% - 14px)); }
-}
 .hero__inner {
   position: relative;
   z-index: 2;
-  max-width: 620px;
+  max-width: 960px;
   width: 100%;
   margin: 0 auto;
   padding-left: max(0px, calc((100vw - var(--wrap)) / 2));
@@ -301,10 +287,10 @@ input, textarea, select { font: inherit; }
   margin-bottom: 26px;
 }
 .hero__title {
-  font-size: clamp(2.7rem, 8vw, 5.6rem);
-  line-height: 0.98;
+  font-size: clamp(3.4rem, 11vw, 8rem);
+  line-height: 0.94;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   text-transform: uppercase;
 }
 .hero__subtitle {
@@ -1099,11 +1085,6 @@ input, textarea, select { font: inherit; }
   .header.is-scrolled { background: rgba(255, 255, 255, 0.92); }
 
   .hero { text-align: left; }
-  .hero__art { opacity: .16; right: 50%; transform: translate(50%, -50%); width: 90vw; }
-  @keyframes floaty {
-    0%, 100% { transform: translate(50%, -50%); }
-    50% { transform: translate(50%, calc(-50% - 14px)); }
-  }
   .hero__inner { padding-left: 0; }
 
   .section__head { flex-direction: column; align-items: flex-start; gap: 12px; }

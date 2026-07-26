@@ -163,7 +163,6 @@ function viewHome() {
   const featured = PRODUCTS.map(productCard).join('');
   return `
     <section class="hero">
-      <div class="hero__art">${hoodieSVG({ id: 'hero' })}</div>
       <div class="hero__inner">
         <p class="hero__eyebrow">Prayki · Est. Streetwear</p>
         <h1 class="hero__title">PRAYKI –<br>Minimal Streetwear.</h1>
