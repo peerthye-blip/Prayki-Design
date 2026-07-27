@@ -97,40 +97,8 @@ const HOODIE_COLORS = {
   white: { key: 'white', name: 'Weiß', hex: '#f4f4f2' },
 };
 
-/* Produktkatalog – aktuell ausschließlich diese drei Hoodies. */
+/* Produktkatalog – aktuell ausschließlich der Wing Hoodie. */
 const PRODUCTS = [
-  {
-    id: 'kinder-hoodie',
-    name: 'Kinder Hoodie',
-    price: 50,
-    colors: [HOODIE_COLORS.white],
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    description:
-      'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
-    art: () => hoodieSVG({ id: 'kinder' }),
-    images:
-      typeof HERO_IMAGE !== 'undefined' && typeof HOODIE_BACK_IMAGE !== 'undefined'
-        ? [HERO_IMAGE, HOODIE_BACK_IMAGE]
-        : null,
-    badge: null,
-    maxOrder: null,
-  },
-  {
-    id: 'erwachsenen-hoodie',
-    name: 'Erwachsenen Hoodie',
-    price: 60,
-    colors: [HOODIE_COLORS.white],
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    description:
-      'Hochwertiger Hoodie aus angenehmem Stoff mit modernem Streetwear-Design.',
-    art: () => hoodieSVG({ id: 'erwachsen' }),
-    images:
-      typeof HERO_IMAGE !== 'undefined' && typeof HOODIE_BACK_IMAGE !== 'undefined'
-        ? [HERO_IMAGE, HOODIE_BACK_IMAGE]
-        : null,
-    badge: null,
-    maxOrder: null,
-  },
   {
     id: 'wing-hoodie',
     name: 'Wing Hoodie',

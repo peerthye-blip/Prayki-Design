@@ -171,16 +171,11 @@ function viewHome() {
   const featured = PRODUCTS.map(productCard).join('');
   return `
     <section class="hero">
-      <div class="hero__grid">
-        <div class="hero__inner">
-          <p class="hero__eyebrow">Marlinéa · Est. Streetwear</p>
-          <h1 class="hero__title">MARLINÉA-DESIGN</h1>
-          <p class="hero__subtitle">Schlichte Designs. Höchste Qualität.</p>
-          <a class="btn btn--lg" href="#/shop">Jetzt shoppen</a>
-        </div>
-        <div class="hero__media">
-          <img class="hero__photo" src="${HERO_CUTOUT.src}" alt="${HERO_CUTOUT.alt}" decoding="async">
-        </div>
+      <div class="hero__inner">
+        <p class="hero__eyebrow">Marlinéa · Est. Streetwear</p>
+        <h1 class="hero__title">MARLINÉA-DESIGN</h1>
+        <p class="hero__subtitle">Schlichte Designs. Höchste Qualität.</p>
+        <a class="btn btn--lg" href="#/shop">Jetzt shoppen</a>
       </div>
       <span class="hero__scroll">Scroll</span>
     </section>
@@ -197,7 +192,7 @@ function viewHome() {
       <div class="promo__inner">
         <h2 class="promo__title">Weniger. Aber besser.</h2>
         <p class="promo__text">
-          Drei Hoodies. Ein Anspruch. Marlinéa steht für reduzierte Designs,
+          Ein Hoodie. Ein Anspruch. Marlinéa steht für reduzierte Designs,
           erstklassige Materialien und einen zeitlosen, monochromen Look –
           gemacht für die Straße, gedacht für den Alltag.
         </p>
@@ -212,7 +207,7 @@ function viewShop() {
       <div class="page-head">
         <p class="page-head__eyebrow">Shop</p>
         <h1 class="page-head__title">Die Kollektion</h1>
-        <p class="page-head__text">Drei Hoodies. Monochrome Töne, klare Linien. Wähle deinen Stil.</p>
+        <p class="page-head__text">Unser Signature-Hoodie. Monochrome Töne, klare Linien.</p>
       </div>
       <div class="grid">${PRODUCTS.map(productCard).join('')}</div>
     </section>`;

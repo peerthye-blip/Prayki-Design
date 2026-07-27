@@ -283,7 +283,13 @@ input, textarea, select { font: inherit; }
   gap: clamp(28px, 5vw, 72px);
   align-items: center;
 }
-.hero__inner { position: relative; z-index: 2; }
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+}
 .hero__media { display: flex; justify-content: center; }
 .hero__photo {
   width: auto;
