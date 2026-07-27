@@ -113,6 +113,19 @@ const PRODUCTS = [
     badge: '🔥 Nur noch 2 bestellbar – Schnell bestellen!',
     maxOrder: 2,
   },
+  {
+    id: 'tshirt',
+    name: 'T-Shirt',
+    price: 25,
+    colors: [HOODIE_COLORS.white],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    description:
+      'Hochwertiges T-Shirt aus angenehmem Stoff mit modernem Streetwear-Design.',
+    art: () => hoodieSVG({ id: 'tshirt' }),
+    images: typeof TSHIRT_IMAGES !== 'undefined' ? TSHIRT_IMAGES : null,
+    badge: null,
+    maxOrder: null,
+  },
 ];
 
 /** Findet ein Produkt anhand seiner ID. */
