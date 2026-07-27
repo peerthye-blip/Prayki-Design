@@ -39,13 +39,13 @@ const MIME = {
   '.json': 'application/json',
 };
 
-const apiHandler = require('./api/send-email.js');
-
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
 
-  // API-Route -> Vercel-kompatible Funktion via Mini-Shim aufrufen
-  if (url.pathname === '/api/send-email') {
+  // Beliebige /api/<name> -> ./api/<name>.js (Vercel-kompatibel via Mini-Shim)
+  if (url.pathname.startsWith('/api/')) {
+    const name = url.pathname.slice('/api/'.length).replace(/[^a-zA-Z0-9_-]/g, '');
+    const modPath = path.join(ROOT, 'api', name + '.js');
     const chunks = [];
     req.on('data', (c) => chunks.push(c));
     req.on('end', async () => {
@@ -61,8 +61,16 @@ const server = http.createServer((req, res) => {
         },
         end(...a) { res.statusCode = this.statusCode; res.end(...a); },
       };
+      let handler;
       try {
-        await apiHandler(req, shim);
+        handler = require(modPath);
+      } catch (e) {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({ error: 'API-Route/Abhängigkeit nicht gefunden', detail: String(e.message) }));
+      }
+      try {
+        await handler(req, shim);
       } catch (e) {
         res.statusCode = 500;
         res.setHeader('Content-Type', 'application/json');

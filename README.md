@@ -87,3 +87,28 @@ trotzdem erreicht. Für automatischen Versand ist die Serverless-Funktion nötig
 
 Lokale Vorlage der Variablen: siehe `.env.example` (echte Werte in `.env`,
 wird von `.gitignore` ausgeschlossen).
+
+## Bezahlung (Stripe)
+
+Der Warenkorb-Button **„Zur Kasse"** erstellt eine **Stripe-Checkout-Session**
+(`api/create-checkout-session.js`) und leitet zur gehosteten Stripe-Bezahlseite
+weiter. Preise werden **serverseitig** aus `lib/catalog.js` gebildet (nie aus
+dem Frontend). Nach erfolgreicher Zahlung kehrt der Kunde auf
+`/?paid=<session_id>` zurück; `api/order-complete.js` prüft bei Stripe, dass
+wirklich bezahlt wurde, schickt dir die Bestell-Mail und zeigt die Bestätigung.
+
+> Ist **kein** `STRIPE_SECRET_KEY` gesetzt, fällt der Checkout automatisch auf
+> den einfachen Ablauf (`#/kasse`, Bestellung nur per E-Mail) zurück.
+
+### Einrichtung
+
+1. Stripe-Account anlegen → **Developers → API keys**.
+2. In Vercel unter **Environment Variables** setzen:
+   - `STRIPE_SECRET_KEY` = `sk_test_…` (Test) bzw. `sk_live_…` (Live)
+   - (Resend-Variablen wie oben bleiben bestehen)
+3. **Redeploy**.
+4. Testen mit Stripe-Testkarte `4242 4242 4242 4242`, beliebiges künftiges
+   Ablaufdatum, beliebige CVC/PLZ.
+
+Preise ändern: `lib/catalog.js` (Beträge in **Cent**). Für den Live-Betrieb
+in Stripe auf **Live-Modus** wechseln und den Live-Key hinterlegen.

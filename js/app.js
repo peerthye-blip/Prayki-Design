@@ -15,6 +15,8 @@ const CART_KEY = 'prayki_cart_v1';
    Auf dem deployten Host same-origin unter /api/send-email erreichbar.
    (Ohne Backend – z. B. in der Artifact-Vorschau – greift ein mailto-Fallback.) */
 const EMAIL_ENDPOINT = '/api/send-email';
+const CHECKOUT_ENDPOINT = '/api/create-checkout-session';
+const ORDER_ENDPOINT = '/api/order-complete';
 const CONTACT_MAIL = 'peer.thye@icloud.com';
 
 const Cart = {
@@ -521,6 +523,63 @@ function closeCart() {
   document.body.classList.remove('no-scroll');
 }
 
+/* --------------------------- Stripe-Checkout ----------------------------- */
+
+/* Erstellt eine Stripe-Checkout-Session und leitet dorthin weiter.
+   Ohne Stripe-Backend (501/Netzwerkfehler) fällt es auf den einfachen
+   Checkout (#/kasse, Bestellung nur per E-Mail) zurück. */
+async function startCheckout() {
+  if (!Cart.items.length) return;
+  const items = Cart.items.map(({ id, size, color, qty }) => ({ id, size, color, qty }));
+  const btn = $('#cart-checkout');
+  const label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Weiterleitung …';
+  try {
+    const r = await fetch(CHECKOUT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items }),
+    });
+    if (r.status === 501) {
+      closeCart();
+      navigate('#/kasse');
+      return;
+    }
+    if (!r.ok) throw new Error('checkout');
+    const data = await r.json();
+    if (!data.url) throw new Error('no url');
+    window.location.href = data.url; // -> gehostete Stripe-Bezahlseite
+  } catch (_) {
+    closeCart();
+    navigate('#/kasse');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+}
+
+/* Nach Rückkehr von Stripe: Zahlung serverseitig bestätigen + Bestätigung zeigen. */
+async function confirmPaidOrder(sessionId) {
+  const main = $('#app');
+  $('#site-header').classList.remove('header--hero');
+  main.dataset.route = 'confirmed';
+  main.innerHTML =
+    `<section class="section section--top empty"><h1 class="empty__title">Zahlung wird bestätigt …</h1></section>`;
+  try {
+    const r = await fetch(`${ORDER_ENDPOINT}?session_id=${encodeURIComponent(sessionId)}`);
+    const data = await r.json();
+    if (!r.ok || !data.ok) throw new Error('confirm');
+    Cart.clear();
+    updateCartBadge();
+    main.innerHTML = viewOrderConfirmed(data.order.id);
+  } catch (_) {
+    Cart.clear();
+    updateCartBadge();
+    main.innerHTML = viewOrderConfirmed('—');
+  }
+}
+
 /* ------------------------------- Router ---------------------------------- */
 
 const routes = [
@@ -772,11 +831,8 @@ function bindGlobalEvents() {
     }
   });
 
-  // „Zur Kasse" aus dem Drawer
-  $('#cart-checkout').addEventListener('click', () => {
-    closeCart();
-    navigate('#/kasse');
-  });
+  // „Zur Kasse" aus dem Drawer → Stripe Checkout (Fallback: einfacher Checkout)
+  $('#cart-checkout').addEventListener('click', startCheckout);
 
   // Mobile-Navigation
   $('#nav-toggle').addEventListener('click', () => {
@@ -804,6 +860,17 @@ function init() {
   updateCartBadge();
   window.addEventListener('hashchange', render);
   render();
+
+  // Rückkehr von Stripe auswerten (?paid=... / ?canceled=1)
+  const params = new URLSearchParams(location.search);
+  if (params.get('paid')) {
+    const sid = params.get('paid');
+    history.replaceState({}, '', location.pathname);
+    confirmPaidOrder(sid);
+  } else if (params.get('canceled')) {
+    history.replaceState({}, '', location.pathname);
+    toast('Zahlung abgebrochen – dein Warenkorb ist noch da.', 'err');
+  }
 
   // Jahr im Footer
   const y = $('#year');
