@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · Produktdaten & Artwork
+   MARLINÉA · Produktdaten & Artwork
    Alle Produktbilder werden als monochrome Inline-SVGs erzeugt – keine
    externen Assets, dadurch extrem schnelle Ladezeiten und ein konsistenter,
    hochwertiger Look in Schwarz / Weiß / Grau.

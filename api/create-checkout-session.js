@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · Stripe-Checkout-Session erstellen
+   MARLINÉA · Stripe-Checkout-Session erstellen
    -------------------------------------------------------------------------
    Erwartet POST { items: [{ id, size, color, qty }] }.
    Preise kommen ausschließlich aus lib/catalog.js (nie aus dem Frontend).

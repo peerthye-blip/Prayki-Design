@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · App-Logik
+   MARLINÉA · App-Logik
    - Hash-basiertes Routing (SPA, keine Framework-Abhängigkeiten)
    - Warenkorb mit localStorage-Persistenz
    - Warenkorb-Drawer, Größenauswahl, Kasse
@@ -173,8 +173,8 @@ function viewHome() {
     <section class="hero">
       <div class="hero__grid">
         <div class="hero__inner">
-          <p class="hero__eyebrow">Prayki · Est. Streetwear</p>
-          <h1 class="hero__title">PRAYKI-DESIGN</h1>
+          <p class="hero__eyebrow">Marlinéa · Est. Streetwear</p>
+          <h1 class="hero__title">MARLINÉA-DESIGN</h1>
           <p class="hero__subtitle">Schlichte Designs. Höchste Qualität.</p>
           <a class="btn btn--lg" href="#/shop">Jetzt shoppen</a>
         </div>
@@ -197,7 +197,7 @@ function viewHome() {
       <div class="promo__inner">
         <h2 class="promo__title">Weniger. Aber besser.</h2>
         <p class="promo__text">
-          Drei Hoodies. Ein Anspruch. Prayki steht für reduzierte Designs,
+          Drei Hoodies. Ein Anspruch. Marlinéa steht für reduzierte Designs,
           erstklassige Materialien und einen zeitlosen, monochromen Look –
           gemacht für die Straße, gedacht für den Alltag.
         </p>
@@ -345,7 +345,7 @@ function viewContact() {
       <div class="contact">
         <div class="contact__info">
           <p><span class="contact__label">E-Mail</span>peer.thye@icloud.com</p>
-          <p><span class="contact__label">Instagram</span>@praykidesign</p>
+          <p><span class="contact__label">Instagram</span>@marlinea</p>
         </div>
 
         <form class="contact__form" id="contact-form" novalidate>
@@ -713,7 +713,7 @@ function bindViewEvents(name) {
         toast('Danke! Deine Nachricht wurde gesendet.');
       } catch (_) {
         // Fallback ohne Backend: E-Mail-Programm mit vorausgefüllter Nachricht öffnen
-        const subject = encodeURIComponent('Kontaktanfrage – Prayki');
+        const subject = encodeURIComponent('Kontaktanfrage – Marlinéa');
         const bodyTxt = encodeURIComponent(
           `Name: ${payload.name}\nE-Mail: ${payload.email}\n\n${payload.message}`
         );

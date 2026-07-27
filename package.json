@@ -2,7 +2,7 @@
   "name": "prayki-design",
   "version": "1.0.0",
   "private": true,
-  "description": "Prayki – minimalistischer Streetwear-Shop (statisch + Serverless-Funktionen)",
+  "description": "Marlinéa – minimalistischer Streetwear-Shop (statisch + Serverless-Funktionen)",
   "scripts": {
     "dev": "node dev-server.js"
   },

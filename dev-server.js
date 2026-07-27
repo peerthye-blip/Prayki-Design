@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · Lokaler Entwicklungs-Server
+   MARLINÉA · Lokaler Entwicklungs-Server
    -------------------------------------------------------------------------
    Bedient die statische Seite UND die Serverless-Funktion /api/send-email
    – genau wie später auf Vercel. Ohne externe Abhängigkeiten.
@@ -103,7 +103,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`\n  PRAYKI läuft:  http://localhost:${PORT}`);
+  console.log(`\n  MARLINÉA läuft:  http://localhost:${PORT}`);
   console.log(`  API-Route:     /api/send-email`);
   console.log(`  RESEND_API_KEY: ${process.env.RESEND_API_KEY ? 'gesetzt ✓' : 'NICHT gesetzt (E-Mail-Versand aus)'}\n`);
 });

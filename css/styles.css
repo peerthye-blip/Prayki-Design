@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · Styles
+   MARLINÉA · Styles
    Monochrom · Minimal · Luxus-Streetwear
    Palette: Schwarz / Weiß / Grau
    ========================================================================= */
@@ -287,7 +287,7 @@ input, textarea, select { font: inherit; }
 .hero__media { display: flex; justify-content: center; }
 .hero__photo {
   width: auto;
-  /* Höhe = das zweizeilige „PRAYKI-DESIGN" (2 Zeilen · Zeilenhöhe 0.94) */
+  /* Höhe = das zweizeilige „MARLINÉA-DESIGN" (2 Zeilen · Zeilenhöhe 0.94) */
   height: calc(1.88 * var(--hero-title));
   max-width: 100%;
   max-height: 78svh;

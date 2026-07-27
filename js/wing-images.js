@@ -1,5 +1,5 @@
 /* ============================================================
-   PRAYKI · Wing-Hoodie-Produktfotos (als Data-URIs eingebettet
+   MARLINÉA · Wing-Hoodie-Produktfotos (als Data-URIs eingebettet
    für ein eigenständiges, offline-fähiges Setup).
    ============================================================ */
 const WING_IMAGES = [

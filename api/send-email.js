@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · Serverless-Funktion zum Versenden von E-Mails über Resend
+   MARLINÉA · Serverless-Funktion zum Versenden von E-Mails über Resend
    -------------------------------------------------------------------------
    WICHTIG: Der Resend-API-Key wird AUSSCHLIESSLICH als Server-Umgebungs-
    variable RESEND_API_KEY gelesen – niemals im Code oder im Frontend!
@@ -14,8 +14,8 @@
 
 const RECIPIENT = process.env.MAIL_TO || 'peer.thye@icloud.com';
 // Ohne eigene verifizierte Domain funktioniert der Resend-Testabsender.
-// Mit eigener Domain: MAIL_FROM z. B. "Prayki <shop@deine-domain.de>" setzen.
-const FROM = process.env.MAIL_FROM || 'Prayki <onboarding@resend.dev>';
+// Mit eigener Domain: MAIL_FROM z. B. "Marlinéa <shop@deine-domain.de>" setzen.
+const FROM = process.env.MAIL_FROM || 'Marlinéa <onboarding@resend.dev>';
 
 function escapeHtml(s = '') {
   return String(s).replace(/[&<>"']/g, (c) =>

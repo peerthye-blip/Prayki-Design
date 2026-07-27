@@ -1,6 +1,6 @@
-# PRAYKI — Minimal Streetwear
+# MARLINÉA — Minimal Streetwear
 
-Eine moderne, minimalistische E-Commerce-Website für die Modemarke **Prayki**.
+Eine moderne, minimalistische E-Commerce-Website für die Modemarke **Marlinéa**.
 Luxuriöser, monochromer Streetwear-Look in **Schwarz · Weiß · Grau**.
 
 ## Highlights
@@ -68,7 +68,7 @@ variable** vor, niemals im Frontend oder im Repo.
 2. Unter **Settings → Environment Variables** setzen:
    - `RESEND_API_KEY` = dein Resend-Key
    - `MAIL_TO` = `peer.thye@icloud.com`
-   - `MAIL_FROM` = `Prayki <onboarding@resend.dev>` (oder eigene verifizierte Domain)
+   - `MAIL_FROM` = `Marlinéa <onboarding@resend.dev>` (oder eigene verifizierte Domain)
 3. Deployen. Die Funktion ist dann unter `/api/send-email` erreichbar; das
    Formular postet automatisch dorthin.
 
@@ -76,7 +76,7 @@ variable** vor, niemals im Frontend oder im Repo.
 
 Ohne eigene Domain funktioniert der Resend-Testabsender `onboarding@resend.dev`
 – er stellt allerdings **nur an die E-Mail-Adresse des Resend-Kontoinhabers**
-zu. Für Versand an beliebige Adressen (und ein sauberes „Von: Prayki") in
+zu. Für Versand an beliebige Adressen (und ein sauberes „Von: Marlinéa") in
 Resend eine **eigene Domain verifizieren** und `MAIL_FROM` entsprechend setzen.
 
 ### Ohne Backend (z. B. reine statische Vorschau)

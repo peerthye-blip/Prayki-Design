@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRAYKI · Bestellung abschließen (nach erfolgreicher Stripe-Zahlung)
+   MARLINÉA · Bestellung abschließen (nach erfolgreicher Stripe-Zahlung)
    -------------------------------------------------------------------------
    GET ?session_id=cs_...  – ruft die Stripe-Session ab, prüft serverseitig,
    dass wirklich bezahlt wurde, schickt dir die Bestell-Mail und liefert
