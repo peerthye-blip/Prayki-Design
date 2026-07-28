@@ -751,6 +751,12 @@ input, textarea, select { font: inherit; }
   text-transform: uppercase;
   color: var(--grey-500);
 }
+.contact__link {
+  justify-self: start;
+  border-bottom: 1px solid var(--grey-200);
+  transition: border-color .25s var(--ease), color .25s var(--ease);
+}
+.contact__link:hover { border-color: var(--black); }
 
 .field { display: grid; gap: 8px; margin-bottom: 18px; }
 .field > span {
