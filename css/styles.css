@@ -120,7 +120,8 @@ input, textarea, select { font: inherit; }
 }
 /* Helle Header-Variante über dem dunklen Hero (nur ganz oben) */
 .header--hero:not(.is-scrolled) .logo,
-.header--hero:not(.is-scrolled) .cart-btn { color: var(--white); }
+.header--hero:not(.is-scrolled) .cart-btn,
+.header--hero:not(.is-scrolled) .lang-toggle { color: var(--white); }
 .header--hero:not(.is-scrolled) .cart-count {
   background: var(--white); color: var(--black);
 }
@@ -183,6 +184,32 @@ input, textarea, select { font: inherit; }
 .nav a.is-active::after { transform: scaleX(1); }
 
 .header__actions { display: flex; align-items: center; gap: 14px; }
+
+/* Sprach-Umschalter (DE / EN) */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--grey-700);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+.lang-toggle button {
+  color: inherit;
+  opacity: .45;
+  padding: 4px 4px;
+  line-height: 1;
+  transition: opacity .2s var(--ease);
+}
+.lang-toggle button:hover { opacity: .8; }
+.lang-toggle button.is-active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+.lang-toggle span.lang-sep { opacity: .35; }
 
 .cart-btn {
   position: relative;

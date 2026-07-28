@@ -110,7 +110,7 @@ const PRODUCTS = [
     art: () => hoodieSVG({ id: 'wing', wings: true }),
     // Echte Produktfotos (aus js/wing-images.js) – ermöglichen die Bildergalerie
     images: typeof WING_IMAGES !== 'undefined' ? WING_IMAGES : null,
-    badge: '🔥 Nur noch 2 bestellbar – Schnell bestellen!',
+    badge: true, // „fast ausverkauft" – Text wird übersetzt (i18n)
     maxOrder: 2,
   },
   {
@@ -131,11 +131,6 @@ const PRODUCTS = [
 /** Findet ein Produkt anhand seiner ID. */
 function getProduct(id) {
   return PRODUCTS.find((p) => p.id === id) || null;
-}
-
-/** Preis im deutschen Format (z. B. „50 €"). */
-function formatPrice(value) {
-  return `${value.toFixed(2).replace('.', ',')} €`;
 }
 
 /** Erstes Foto eines Produkts (falls vorhanden), sonst null. */

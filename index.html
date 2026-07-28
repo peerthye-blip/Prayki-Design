@@ -15,16 +15,23 @@
   <!-- Header -->
   <header class="header" id="site-header">
     <div class="header__inner">
-      <a class="logo" href="#/" aria-label="Marlinéa Startseite">MARLINÉA</a>
+      <a class="logo" href="#/" data-i18n-aria="aria.logo" aria-label="Marlinéa Startseite">MARLINÉA</a>
 
-      <nav class="nav" id="site-nav" aria-label="Hauptnavigation">
-        <a href="#/" data-nav>Startseite</a>
-        <a href="#/shop" data-nav>Shop</a>
-        <a href="#/kontakt" data-nav>Kontakt</a>
+      <nav class="nav" id="site-nav" aria-label="Navigation">
+        <a href="#/" data-nav data-i18n="nav.home">Startseite</a>
+        <a href="#/shop" data-nav data-i18n="nav.shop">Shop</a>
+        <a href="#/kontakt" data-nav data-i18n="nav.contact">Kontakt</a>
       </nav>
 
       <div class="header__actions">
-        <button class="cart-btn" data-open-cart aria-label="Warenkorb öffnen">
+        <div class="lang-toggle" id="lang-toggle" role="group"
+             data-i18n-aria="aria.lang" aria-label="Sprache wählen">
+          <button type="button" data-lang="de">DE</button>
+          <span class="lang-sep" aria-hidden="true">/</span>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+
+        <button class="cart-btn" data-open-cart data-i18n-aria="aria.openCart" aria-label="Warenkorb öffnen">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
                stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M6 7h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 7Z"/>
@@ -33,7 +40,7 @@
           <span class="cart-count" aria-live="polite">0</span>
         </button>
 
-        <button class="nav-toggle" id="nav-toggle" aria-label="Menü öffnen">
+        <button class="nav-toggle" id="nav-toggle" data-i18n-aria="aria.menu" aria-label="Menü öffnen">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -48,35 +55,35 @@
     <div class="footer__inner">
       <div class="footer__brand">
         <span class="logo logo--sm">MARLINÉA</span>
-        <p>Minimal Streetwear. Schlichte Designs. Höchste Qualität.</p>
+        <p data-i18n="footer.tagline">Minimal Streetwear. Schlichte Designs. Höchste Qualität.</p>
       </div>
       <nav class="footer__nav" aria-label="Footer">
-        <a href="#/">Startseite</a>
-        <a href="#/shop">Shop</a>
-        <a href="#/kontakt">Kontakt</a>
+        <a href="#/" data-i18n="nav.home">Startseite</a>
+        <a href="#/shop" data-i18n="nav.shop">Shop</a>
+        <a href="#/kontakt" data-i18n="nav.contact">Kontakt</a>
       </nav>
     </div>
     <div class="footer__bar">
-      <span>© <span id="year">2026</span> Marlinéa. Alle Rechte vorbehalten.</span>
-      <span>Schwarz · Weiß · Grau</span>
+      <span>© <span id="year">2026</span> Marlinéa. <span data-i18n="footer.rights">Alle Rechte vorbehalten.</span></span>
+      <span data-i18n="footer.palette">Schwarz · Weiß · Grau</span>
     </div>
   </footer>
 
   <!-- Warenkorb-Drawer -->
   <div class="overlay" id="overlay"></div>
-  <aside class="drawer" id="drawer" aria-label="Warenkorb">
+  <aside class="drawer" id="drawer" data-i18n-aria="drawer.title" aria-label="Warenkorb">
     <div class="drawer__head">
-      <h2 class="drawer__title">Warenkorb</h2>
-      <button class="drawer__close" id="cart-close" aria-label="Schließen">×</button>
+      <h2 class="drawer__title" data-i18n="drawer.title">Warenkorb</h2>
+      <button class="drawer__close" id="cart-close" data-i18n-aria="aria.close" aria-label="Schließen">×</button>
     </div>
     <div class="drawer__body" id="cart-body"></div>
     <div class="drawer__foot" id="cart-foot" hidden>
       <div class="drawer__total">
-        <span>Gesamtsumme</span>
+        <span data-i18n="drawer.total">Gesamtsumme</span>
         <span id="cart-total">0,00 €</span>
       </div>
-      <button class="btn btn--lg btn--full" id="cart-checkout">Zur Kasse</button>
-      <p class="drawer__note">Versandkostenfrei · 14 Tage Rückgabe</p>
+      <button class="btn btn--lg btn--full" id="cart-checkout" data-i18n="drawer.checkout">Zur Kasse</button>
+      <p class="drawer__note" data-i18n="drawer.note">Versandkostenfrei · 14 Tage Rückgabe</p>
     </div>
   </aside>
 
